@@ -19,6 +19,8 @@ from userge.utils import SafeDict
 CHANNEL = userge.getCLogger(__name__)
 SAVED_SETTINGS = get_collection("CONFIGS")
 ALLOWED_COLLECTION = get_collection("PM_PERMIT")
+user = await message.client.get_user_dict(message.from_user.id)
+  heckerman = user['mention']
 
 pmCounter: Dict[int, int] = {}
 _IS_INLINE = True
@@ -296,10 +298,10 @@ async def uninvitedPmHandler(message: Message):
                 )
             except (IndexError, BotInlineDisabled):
                 await message.reply(
-                    noPmMessage.format_map(SafeDict(**user_dict)) + '\n`- Protected by userge`')
+                    noPmMessage.format_map(SafeDict(**user_dict)) + f"\n**Protected spamming by**``` {heckerman}```")
         else:
             await message.reply(
-                noPmMessage.format_map(SafeDict(**user_dict)) + '\n`- Protected by userge`')
+                noPmMessage.format_map(SafeDict(**user_dict)) + f"\n**Protected spamming by**``` {heckerman}```")
         await asyncio.sleep(1)
         await CHANNEL.log(f"#NEW_MESSAGE\n{user_dict['mention']} has messaged you")
 
@@ -388,7 +390,7 @@ if userge.has_bot:
         else:
             user_dict = await userge.get_user_dict(c_q.from_user.id)
             await c_q.edit_message_text(
-                noPmMessage.format_map(SafeDict(**user_dict)) + '\n`- Protected by userge`')
+                noPmMessage.format_map(SafeDict(**user_dict)) + f"\n**Protected spamming by**``` {heckerman}```")
             buttons = InlineKeyboardMarkup(
                 [
                     [
